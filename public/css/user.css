@@ -1,0 +1,47 @@
+body,html{
+    width: 100%;
+    height: 100%;
+}
+
+#user{
+    width:100%;
+    height: 100%;
+    background-image: url("../img/bg.jpg");
+    background-size:100% 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container{
+    width:360px;
+    height: 440px;
+    padding: 20px;
+    background: rgba(255, 255, 255, .5);
+    border-radius: 10px;
+}
+
+.user_btn{
+    width:100%;
+}
+.logo{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:20px;
+    margin-bottom: 20px;
+}
+.text-success{
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.captch{
+    display: flex;
+}
+#user_register_captch{
+    width:60%;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
