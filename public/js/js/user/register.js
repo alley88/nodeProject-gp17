@@ -9,6 +9,7 @@ class Register {
         this.container.html(Register.template);
         this.toggleContent();
         this.createCaptch();
+        this.userRegister();
     }
     toggleContent(){
         $("#user_register .text-success").on("click",this.handleToggleContentCb.bind(this))
@@ -34,6 +35,35 @@ class Register {
     handlerandomCaptchCb(){
         this.createCaptch();
     }
+    userRegister(){
+        $("#user_register").on("submit",this.handleUserRegisterCb.bind(this))
+    }
+    handleUserRegisterCb(e){
+        e.preventDefault();
+        var username = $("#user_register_username").val();
+        var password = $("#user_register_password").val();
+        var captch = $("#user_register_captch").val();
+        
+        $.ajax({
+            type:"post",
+            url:"/users/register",
+            data:{
+                username,
+                password,
+                captch
+            },
+            success:this.handleRgisterSucc.bind(this)
+        })
+    }
+    handleRgisterSucc(data){
+        if(data.data.code == 1){
+            alert("注册成功");
+            new Page().createContent(false);
+        }else{
+            alert(data.data.info);
+            window.location.reload();
+        }
+    }
 }
 
 Register.template = `
@@ -44,7 +74,7 @@ Register.template = `
             <form id="user_register">
                 <div class="form-group">
                     <label for="user_register_username">用户名</label>
-                    <input type="email" class="form-control" id="user_register_username" placeholder="请输入用户名">
+                    <input type="text" class="form-control" id="user_register_username" placeholder="请输入用户名">
                 </div>
                 <div class="form-group">
                     <label for="user_register_password">密码</label>

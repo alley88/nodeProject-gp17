@@ -9,6 +9,7 @@ class Login {
         this.container.html(Login.template);
         this.toggleContent();
         this.createCaptch();
+        this.userLogin();
     }
     toggleContent() {
         $("#user_login .text-success").on("click", this.handleToggleContentCb.bind(this))
@@ -34,6 +35,35 @@ class Login {
     handlerandomCaptchCb() {
         this.createCaptch();
     }
+    userLogin(){
+        $("#user_login").on("submit",this.handleUserLoginCb.bind(this))
+    }
+    handleUserLoginCb(e){
+        e.preventDefault();
+        var username = $("#user_login_username").val();
+        var password = $("#user_login_password").val();
+        var captch = $("#user_login_captch").val();
+
+        $.ajax({
+            type:"post",
+            url:"/users/login",
+            data:{
+                username,
+                password,
+                captch
+            },
+            success:this.handleLoginSucc.bind(this)
+        })
+        
+    }
+    handleLoginSucc(data){
+        if(data.data.code === 1){
+            window.location.href="http://10.60.15.150:3000/html/list.html"
+        }else{
+            alert(data.data.info);
+            window.location.reload();
+        }
+    }
 }
 
 Login.template = `
@@ -44,7 +74,7 @@ Login.template = `
             <form id="user_login">
                 <div class="form-group">
                     <label for="user_login_username">用户名</label>
-                    <input type="email" class="form-control" id="user_login_username" placeholder="请输入用户名">
+                    <input type="text" class="form-control" id="user_login_username" placeholder="请输入用户名">
                 </div>
                 <div class="form-group">
                     <label for="user_login_password">密码</label>
@@ -53,7 +83,7 @@ Login.template = `
                 <div class="form-group">
                     <label for="user_login_password">验证码</label>
                     <div class="captch">
-                        <input type="text" class="form-control" id="user_register_captch" placeholder="验证码">
+                        <input type="text" class="form-control" id="user_login_captch" placeholder="验证码">
                     </div>
                 </div>
                 <p class="text-success">没有账号?立即注册</p>

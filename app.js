@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require("cookie-session")
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -12,6 +14,14 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+
+app.use(session({
+  name: 'gp17',
+  secret:"BK-GP-17",
+  maxAge: 24 * 60 * 60 * 1000 //最大的存储时间
+}))
+
 
 app.use(logger('dev'));
 app.use(express.json());
