@@ -29,7 +29,27 @@ const userSave = function(userInfo){
 }
 
 
+//list查
+const userFindList = function(userInfo){
+    return Users.find({},{username:1,registerDate:1,userPic:1,Nickname:1,userStatus:1}).skip((userInfo.page-1)*userInfo.pageSize).limit(userInfo.pageSize)
+}
+
+//查多少用户
+const userListCount = (userInfo)=>{
+    return Users.find(userInfo).count();
+}
+
+
+//修改用户登录状态
+
+const userStatusUpdate = (id)=>{
+    return  Users.update({_id:id},{$set:{userStatus:false}})
+}
+
 module.exports = {
     userFind,
-    userSave
+    userSave,
+    userFindList,
+    userListCount,
+    userStatusUpdate
 }

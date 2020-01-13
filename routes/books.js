@@ -12,5 +12,8 @@ router.get("/list",booksController.list);
 router.get("/delete",booksController.deleteCb);
 
 //数据更新
-router.post("/update",booksController.update)
+router.post("/update",booksController.update);
+
+//书籍搜索
+router.get("/search",booksController.search)
 module.exports = router;

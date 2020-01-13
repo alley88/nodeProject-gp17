@@ -98,9 +98,27 @@ const update = async (req,res)=>{
 
 }
 
+
+
+const search = async (req,res)=>{
+    var {searchName,searchType,searchStatus,pageSize,page} = req.query;
+    let data = await booksModel.booksSearch({searchName,searchType,searchStatus,pageSize:Number(pageSize),page:Number(page)});
+    let count = await booksModel.booksListCount();
+    res.json({
+        code:200,
+        errMsg:"",
+        data:{
+            data,
+            code:1,
+            count
+        }
+    })
+}
+
 module.exports = {
     add,
     list,
     deleteCb,
-    update
+    update,
+    search
 }

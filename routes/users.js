@@ -11,5 +11,9 @@ router.post("/register",userController.register)
 //登录
 router.post("/login",userController.login)
 
+//用户列表
+router.get("/userList",userController.userList);
 
+//关闭用户登录状态
+router.post("/toggleStatus",userController.toggleStatus)
 module.exports = router;

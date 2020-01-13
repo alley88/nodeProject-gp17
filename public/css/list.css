@@ -81,14 +81,14 @@
 }
 
 /* booksActions */
-.booksActions{
+.booksActions,.usersAction{
     padding: 10px;
 }
-.booksActions th{
+.booksActions th,.usersAction th{
     text-align: center;
 }
 
-.booksActions td{
+.booksActions td,.usersAction td{
     text-align: center;
     position: relative;
     height: 90px;
@@ -105,8 +105,25 @@
 
 }
 
+.usersAction td img{
+    border-radius: 50%;
+    width:50px;
+    height: 50px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left: -25px;
+    margin-top:-25px;
+}
+
 #pageList{
     position: absolute;
     right: 20px;
     bottom: 40px;
+}
+
+/* form-search */
+
+.form-search{
+    margin-bottom:20px;
 }

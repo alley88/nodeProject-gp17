@@ -15,10 +15,11 @@ class BooksAction {
         this.container.html(BooksAction.template);
         this.getBooksList(this.booksListData);
         this.upload();
+        this.booksSearch();
     }
     getBooksList({ pageSize, page }) {
         //  limit 10  page 1
-
+      //  this.flag = true;
         $.ajax({
             type: "get",
             url: "/books/list",
@@ -42,7 +43,7 @@ class BooksAction {
                         <span>${this.dataList[i].booksType[j]}</span>
                     `
                 }
-                
+
 
                 str += `
                 <tr>
@@ -61,7 +62,7 @@ class BooksAction {
                 </td>
             </tr>`
 
-            var type = "";
+                var type = "";
 
             }
             $(".booksActions tbody").html(str);
@@ -152,100 +153,152 @@ class BooksAction {
     handleBtnActionsCb(index) {
         var id = $(".btn-actions").eq(index).parent().attr("data-id");
         //拿到当前行的数据
-       for(var i=0;i<this.dataList.length;i++){
-           if(id == this.dataList[i]._id){
-               this.activeBooksInfo = this.dataList[i];
-               break;
-           }
-       }
+        for (var i = 0; i < this.dataList.length; i++) {
+            if (id == this.dataList[i]._id) {
+                this.activeBooksInfo = this.dataList[i];
+                break;
+            }
+        }
 
 
-       this.updateBooksName = $("#updatebooksName");
-       this.updatebooksAuth = $("#updatebooksAuth")
-       this.updatebooksIntroduction = $("#updatebooksIntroduction")
-       this.updatebooksType = $("#updatebooksType")
-       this.updatebooksStatus = $("#updatebooksStatus")
-       this.updateBooksForm = $("#updateBooksForm");
+        this.updateBooksName = $("#updatebooksName");
+        this.updatebooksAuth = $("#updatebooksAuth")
+        this.updatebooksIntroduction = $("#updatebooksIntroduction")
+        this.updatebooksType = $("#updatebooksType")
+        this.updatebooksStatus = $("#updatebooksStatus")
+        this.updateBooksForm = $("#updateBooksForm");
 
-       this.updateBooksName.val(this.activeBooksInfo.booksName);
-       this.updatebooksAuth.val(this.activeBooksInfo.booksAuth);
-       this.updatebooksIntroduction.val(this.activeBooksInfo.booksIntroduction);
-       this.updatebooksType.val(this.activeBooksInfo.booksType.join());
-       this.updatebooksStatus.val(this.activeBooksInfo.booksStatus);
+        this.updateBooksName.val(this.activeBooksInfo.booksName);
+        this.updatebooksAuth.val(this.activeBooksInfo.booksAuth);
+        this.updatebooksIntroduction.val(this.activeBooksInfo.booksIntroduction);
+        this.updatebooksType.val(this.activeBooksInfo.booksType.join());
+        this.updatebooksStatus.val(this.activeBooksInfo.booksStatus);
 
-       this.modifyBooks();
+        this.modifyBooks();
     }
-    modifyBooks(){
-        this.updateBooksForm.on("submit",this.handleModifyBooksCb.bind(this))
+    modifyBooks() {
+        this.updateBooksForm.on("submit", this.handleModifyBooksCb.bind(this))
     }
-    handleModifyBooksCb(e){
-       
+    handleModifyBooksCb(e) {
+
         e.preventDefault();
-        this.activeBooksInfo.booksName =  this.updateBooksName.val();
-        this.activeBooksInfo.booksAuth =   this.updatebooksAuth.val();
-        this.activeBooksInfo.booksIntroduction =   this.updatebooksIntroduction.val();
-        this.activeBooksInfo.booksType =  this.updatebooksType.val();
-        this.activeBooksInfo.booksStatus =   this.updatebooksStatus.val();
-           
-       
-       $.ajax({
-           type:"post",
-           url:"/books/update",
-           data:this.activeBooksInfo,
-           success:this.handleMofidySucc.bind(this)
-       })
+        this.activeBooksInfo.booksName = this.updateBooksName.val();
+        this.activeBooksInfo.booksAuth = this.updatebooksAuth.val();
+        this.activeBooksInfo.booksIntroduction = this.updatebooksIntroduction.val();
+        this.activeBooksInfo.booksType = this.updatebooksType.val();
+        this.activeBooksInfo.booksStatus = this.updatebooksStatus.val();
+
+
+        $.ajax({
+            type: "post",
+            url: "/books/update",
+            data: this.activeBooksInfo,
+            success: this.handleMofidySucc.bind(this)
+        })
     }
-    handleMofidySucc(data){
-       if(data.data.code == 1){
+    handleMofidySucc(data) {
+        if (data.data.code == 1) {
             alert(data.data.info);
             $('#booksModal').modal('hide')
             this.getBooksList(this.booksListData);
-       }else{
-           alert(data.data.info)
-       }
+        } else {
+            alert(data.data.info)
+        }
     }
     //上传图片
-    upload(){
-        $("#updatebooksImage").on("change",this.handleUploadCb.bind(this))
+    upload() {
+        $("#updatebooksImage").on("change", this.handleUploadCb.bind(this))
     }
-    handleUploadCb(){
-       var file = $("#updatebooksImage")[0].files[0];
+    handleUploadCb() {
+        var file = $("#updatebooksImage")[0].files[0];
 
         // 1、模拟form表单上传文件   new FileReader 文件转换base64  dataUrl(小)
         var formData = new FormData();
         //2、将需要上传的对象通过append添加到formData中去 第一个参数是key值  第二个参数是value值
-        formData.append("booksUrl",file)
+        formData.append("booksUrl", file)
 
 
-       $.ajax({
-           type:"post",
-           url:"/upload/image",
-           //3、取消JQ中ajax的默认配置项
-           cache:false,
-           processData:false,
-           contentType:false,
-           data:formData,
-           success:this.handleUploadSucc.bind(this)
-       })
+        $.ajax({
+            type: "post",
+            url: "/upload/image",
+            //3、取消JQ中ajax的默认配置项
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: this.handleUploadSucc.bind(this)
+        })
     }
-    handleUploadSucc(data){
-       if(data.data.code == 1){
-           var img = $("<img/>");
-           img.attr("src",data.data.url);
-           img.css({
-               width:85,
-               height: 120
-           })
-           $(".upload>div").html(img);
+    handleUploadSucc(data) {
+        if (data.data.code == 1) {
+            var img = $("<img/>");
+            img.attr("src", data.data.url);
+            img.css({
+                width: 85,
+                height: 120
+            })
+            $(".upload>div").html(img);
 
-           this.activeBooksInfo.booksUrl = data.data.url;
-           console.log(this.activeBooksInfo)
-       }
+            this.activeBooksInfo.booksUrl = data.data.url;
+            console.log(this.activeBooksInfo)
+        }
+    }
+    booksSearch(){
+       $(".form-search").on("submit",this.handleBooksSearchCb.bind(this))
+    }
+    handleBooksSearchCb(e){
+        e.preventDefault();
+
+        var searchName = $("#booksName_search").val();
+        var searchType = $("#booksType_search").val();
+        var searchStatus = $("#booksStatus_search").val();
+        $.ajax({
+            type:"get",
+            url:"/books/search",
+            data:{
+                searchName,
+                searchType,
+                searchStatus,
+                pageSize:5,
+                page:1
+            },
+            success:this.handleBooksSearchSucc.bind(this)
+        })
+
+    }
+    handleBooksSearchSucc(data){
+        this.flag = true;
+       this.handleGetBooksListSucc(data)
     }
 }
 
 BooksAction.template = `
     <div class="booksActions">
+        <form class="form-search form-inline">
+            <div class="form-group">
+                <label for="booksName_search">书籍名称</label>
+                <input type="text" class="form-control" id="booksName_search" placeholder="请输入要搜索的书籍名称">
+            </div>
+            <div class="form-group">
+                <label for="booksStatus_search">书籍状态</label>
+                <select class="form-control" id="booksStatus_search">
+                    <option value="">全部</option>
+                    <option value="连载中">连载中</option>
+                    <option value="已完结">已完结</option>
+                </select>
+            </div>
+            <div class="form-group">
+            <label for="booksType_search">书籍类型</label>
+            <select class="form-control" id="booksType_search">
+                <option value="">全部</option>
+                <option value="玄幻">玄幻</option>
+                <option value="修仙">修仙</option>
+                <option value="爱情">爱情</option>
+                <option value="动作">动作</option>
+            </select>
+        </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
         <table class="table table-striped">
            <thead>
                 <tr>

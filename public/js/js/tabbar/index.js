@@ -4,7 +4,7 @@ class SliderBar {
     }
     init() {
         this.TabBarToggle()
-        this.handleTabBarCb(2);
+        this.handleTabBarCb(3);
     }
     TabBarToggle() {
         this.TabBar.each(this.handleTabBarEach.bind(this))

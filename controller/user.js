@@ -96,11 +96,11 @@ const login = async (req, res) => {
     if (req.session.captch === captch.toLowerCase()) {
 
         let data = await userModel.userFind({ username });
-        if (data) {
-             //创建加密方式
-             var hash = crypto.createHash("sha256");
-             //需要加密的数据
-             hash.update(password)
+        if (data.userStatus) {
+            //创建加密方式
+            var hash = crypto.createHash("sha256");
+            //需要加密的数据
+            hash.update(password)
 
             if (data.password === hash.digest('hex')) {
                 res.json({
@@ -108,6 +108,9 @@ const login = async (req, res) => {
                     errmsg: "",
                     data: {
                         info: "登录成功",
+                        _id: data._id,
+                        userPic: data.userPic,
+                        Nickname: data.Nickname,
                         code: 1
                     }
                 })
@@ -131,7 +134,7 @@ const login = async (req, res) => {
                 code: 200,
                 errmsg: "",
                 data: {
-                    info: "用户名不存在",
+                    info: "您有不良行为，请联系管理",
                     code: 2
                 }
             })
@@ -150,8 +153,58 @@ const login = async (req, res) => {
 }
 
 
+
+const userList = async (req, res) => {
+    let { pageSize, page } = req.query;
+    let data = await userModel.userFindList({ pageSize: Number(pageSize), page: Number(page) });
+    let count = await userModel.userListCount();
+
+    res.json({
+        code: 200,
+        errMsg: "",
+        data: {
+            code: 1,
+            data,
+            count
+        }
+    })
+
+}
+
+
+
+const toggleStatus = async (req, res) => {
+    let { userId, actionId } = req.body;
+    let data = await userModel.userFind({ _id: actionId });
+    console.log(data);
+    if (data.userLevel == 1001) {
+        let userData = await userModel.userStatusUpdate(userId);
+        res.json({
+            code: 200,
+            errMsg: "",
+            data: {
+                info: "OK",
+                code: 1
+            }
+        })
+
+
+    } else {
+        res.json({
+            code: 200,
+            errMsg: "",
+            data: {
+                info: "您没有权限访问该功能，请联系相关人员授权",
+                code: 2
+            }
+        })
+    }
+}
+
 module.exports = {
     captch,
     register,
-    login
+    login,
+    userList,
+    toggleStatus
 }

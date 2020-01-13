@@ -58,7 +58,13 @@ class Login {
     }
     handleLoginSucc(data){
         if(data.data.code === 1){
-            window.location.href="http://10.60.15.150:3000/html/list.html"
+            var obj = {};
+            obj.userPic = data.data.userPic;
+            obj._id = data.data._id;
+            obj.Nickname = data.data.Nickname;
+            window.sessionStorage.setItem("userinfo",JSON.stringify(obj));
+            window.location.href="http://10.60.15.150:3000/html/list.html";
+           
         }else{
             alert(data.data.info);
             window.location.reload();
