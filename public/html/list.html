@@ -64,6 +64,58 @@
         </div>
         <div class="list-content"></div>
     </div>
+    <!-- 模态框 -->
+    <div class="modal fade" id="booksModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">书籍修改</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="booksForm">
+                        <form id="updateBooksForm">
+                            <div class="form-group">
+                                <label for="updatebooksName">书籍名称</label>
+                                <input type="text" class="form-control" id="updatebooksName" placeholder="请输入书籍名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="updatebooksAuth">书籍作者</label>
+                                <input type="text" class="form-control" id="updatebooksAuth" placeholder="请输入书籍作者">
+                            </div>
+                            <div class="form-group">
+                                <label for="updatebooksIntroduction">书籍简介</label>
+                                <textarea class="form-control" rows="3" placeholder="请输入书籍简介" id="updatebooksIntroduction"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="updatebooksType">书籍类型</label>
+                                <input type="text" class="form-control" id="updatebooksType" placeholder="请选择书籍类型">
+                            </div>
+                            <div class="form-group">
+                                <label for="updatebooksStatus">书籍状态</label>
+                                <select class="form-control" id="updatebooksStatus">
+                                    <option>已完结</option>
+                                    <option>连载中</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="updatebooksImage">书籍封面</label>
+                                <div class="upload">
+                                    <div>
+                                        <span>+</span>
+                                    </div>
+                                    <input type="file" id="updatebooksImage">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">修改书籍</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

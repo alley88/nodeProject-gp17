@@ -36,7 +36,71 @@ const list = async (req,res)=>{
    })
 }
 
+
+
+const deleteCb = async (req,res)=>{
+    var {_id} = req.query;
+
+    var data = await booksModel.booksDelete(_id);
+    if(data.ok == 1){
+        res.json({
+            code:200,
+            errMsg:"",
+            data:{
+                info:"删除成功",
+                code:1
+            }
+        })
+    }else{
+        res.json({
+            code:200,
+            errMsg:"",
+            data:{
+                info:"删除失败",
+                code:2
+            }
+        })
+    }
+    
+
+
+}
+
+
+
+const update = async (req,res)=>{
+    //const {booksName,booksAuth,booksIntroduction,booksType,booksStatus,booksUrl,_id} = req.body;
+    const {_id,...rest} = req.body;
+    const {booksType,...rests} = rest;
+
+    var arr = booksType.split(",");
+    let data = await booksModel.booksUpdate(_id,{booksType:arr,...rests});
+
+    if(data.ok == 1){
+        res.json({
+            code:200,
+            errMsg:"",
+            data:{
+                info:"修改成功",
+                code:1
+            }
+        })
+    }else{
+        res.json({
+            code:200,
+            errMsg:"",
+            data:{
+                info:"服务器错误",
+                code:2
+            }
+        })
+    }
+
+}
+
 module.exports = {
     add,
-    list
+    list,
+    deleteCb,
+    update
 }

@@ -33,8 +33,22 @@ const booksListCount = ()=>{
     return Books.find().count()
 }
 
+
+//删除
+const booksDelete = (_id)=>{
+    return Books.remove({_id})
+}
+
+
+
+//更新数据
+const booksUpdate = (_id,booksInfo)=>{
+    return Books.update({_id},{$set:booksInfo});
+}
 module.exports = {
     booksSave,
     booksList,
-    booksListCount
+    booksListCount,
+    booksDelete,
+    booksUpdate
 }
