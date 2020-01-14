@@ -127,3 +127,50 @@
 .form-search{
     margin-bottom:20px;
 }
+
+/* mine */
+
+
+.mine{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    height: 100%;
+}
+.mine .content{
+    width:400px;
+}
+
+.userInfo_update{
+    width:120px;
+    height: 120px;
+    border-radius: 50%;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border:1px solid #ccc;
+}
+.userInfo_update input{
+    position: absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 10;
+}
+
+.userInfo_update span{
+    position: absolute;
+    font-size: 40px;
+}
+
+.userInfo_update img{
+    width:120px;
+    height: 120px;
+    border-radius: 50%;
+    position: absolute;
+}

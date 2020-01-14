@@ -15,5 +15,17 @@ router.post("/login",userController.login)
 router.get("/userList",userController.userList);
 
 //关闭用户登录状态
-router.post("/toggleStatus",userController.toggleStatus)
+router.post("/toggleStatus",userController.toggleStatus);
+
+//搜索用户
+router.get("/searchList",userController.searchList);
+
+//搜索用户状态
+router.get("/userstatus",userController.userstatusCb)
+
+//所有用户
+router.get("/search",userController.search)
+
+//修改用户信息
+router.post("/updateInfo",userController.updateInfo)
 module.exports = router;

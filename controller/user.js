@@ -201,10 +201,102 @@ const toggleStatus = async (req, res) => {
     }
 }
 
+
+const searchList = async (req,res)=>{
+    var {nickname} = req.query;
+    let data = await userModel.userSearchnickname({nickname});
+    res.json({
+        code:200,
+        errmsg:"",
+        data:{
+            info:"查询成功",
+            code:1,
+            data
+        }
+    })
+    
+}
+
+
+const userstatusCb = async (req,res)=>{
+    var {userStatus} = req.query;
+    var bStop = true;
+
+   
+    if(userStatus==2){
+        
+        bStop = false;
+    }
+
+    let data = await userModel.userSearchStatus({userStatus:bStop});
+    res.json({
+        code:200,
+        errmsg:"",
+        data:{
+            info:"查询成功",
+            code:1,
+            data
+        }
+    })
+
+
+}
+
+
+const search = async (req,res)=>{
+    var {nickname,userStatus} = req.query;
+    if(nickname && userStatus){
+        var bStop = true;
+        if(userStatus==2){
+            bStop = false;
+        }
+
+        let data = await userModel.userSearch({nickname,userStatus:bStop});
+
+        res.json({
+            code:200,
+            errmsg:"",
+            data:{
+                info:"查询成功",
+                code:1,
+                data
+            }
+        })
+    }
+    
+
+}
+
+
+const updateInfo = async (req,res)=>{
+    var {Nickname,userPic,id} = req.body;
+
+    let data = await userModel.userUpdate(id,{Nickname,userPic});
+    
+    if(data.ok == 1){
+        res.json({
+            code:200,
+            errMsg:"",
+            data:{
+                info:"修改成功",
+                code:1,
+                Nickname,
+                userPic,
+                id
+            }
+        })
+    }
+
+
+}
 module.exports = {
     captch,
     register,
     login,
     userList,
-    toggleStatus
+    toggleStatus,
+    searchList,
+    userstatusCb,
+    search,
+    updateInfo
 }

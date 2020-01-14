@@ -19,7 +19,7 @@ class BooksAction {
     }
     getBooksList({ pageSize, page }) {
         //  limit 10  page 1
-      //  this.flag = true;
+        this.flag = true;
         $.ajax({
             type: "get",
             url: "/books/list",

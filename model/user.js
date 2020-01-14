@@ -46,10 +46,37 @@ const userStatusUpdate = (id)=>{
     return  Users.update({_id:id},{$set:{userStatus:false}})
 }
 
+//查用户名称
+const userSearchnickname = (userInfo)=>{
+    return Users.find({Nickname:new RegExp(userInfo.nickname)});
+}
+
+//用户状态查询
+const userSearchStatus = (userInfo)=>{
+   
+    return Users.find({userStatus:userInfo.userStatus});
+}
+
+
+const userSearch = (userInfo)=>{
+    return Users.find({Nickname:new RegExp(userInfo.nickname),userStatus:userInfo.userStatus})
+}
+
+
+//修改用户信息
+
+const userUpdate = (id,userInfo)=>{
+    return Users.update({_id:id},{$set:userInfo})
+}
+
 module.exports = {
     userFind,
     userSave,
     userFindList,
     userListCount,
-    userStatusUpdate
+    userStatusUpdate,
+    userSearchnickname,
+    userSearchStatus,
+    userSearch,
+    userUpdate
 }
