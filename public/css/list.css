@@ -174,3 +174,25 @@
     border-radius: 50%;
     position: absolute;
 }
+
+
+/* ArticleAction */
+
+.ArticleAction{
+    padding: 10px;
+}
+
+.articleList{
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.articleList div{
+    width:25%;
+    padding: 10px;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+}

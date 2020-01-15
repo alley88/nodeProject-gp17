@@ -15,5 +15,9 @@ router.get("/delete",booksController.deleteCb);
 router.post("/update",booksController.update);
 
 //书籍搜索
-router.get("/search",booksController.search)
+router.get("/search",booksController.search);
+
+
+//所有书籍
+router.get("/booksAll",booksController.booksAll);
 module.exports = router;

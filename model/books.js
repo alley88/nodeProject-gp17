@@ -63,11 +63,18 @@ const booksSearch = (booksInfo) => {
 }
 
 
+//所有书籍
+
+const booksAllList = ()=>{
+    return Books.find()
+}
+
 module.exports = {
     booksSave,
     booksList,
     booksListCount,
     booksDelete,
     booksUpdate,
-    booksSearch
+    booksSearch,
+    booksAllList
 }

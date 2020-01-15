@@ -115,10 +115,23 @@ const search = async (req,res)=>{
     })
 }
 
+const booksAll = async (req,res)=>{
+    let data = await booksModel.booksAllList();
+    res.json({
+        code:200,
+        errMsg:"",
+        data:{
+            info:"获取成功",
+            data
+        }
+    })
+}
+
 module.exports = {
     add,
     list,
     deleteCb,
     update,
-    search
+    search,
+    booksAll
 }

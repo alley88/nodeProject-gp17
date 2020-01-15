@@ -8,7 +8,7 @@ var crypto = require('crypto');
 
 
 
-
+var store = {}
 const captch = (req, res) => {
     const captcha = svgCaptcha.create({
         size: 4, // 验证码长度
@@ -19,7 +19,7 @@ const captch = (req, res) => {
     })
 
     //在服务端保存生成的验证码
-    req.session.captch = captcha.text.toLowerCase();
+    store.captch = captcha.text.toLowerCase();
 
     //captcha  是一个对象   {data:svg地址,text:验证码}；
     res.send(captcha)
@@ -29,7 +29,7 @@ const captch = (req, res) => {
 const register = async (req, res, next) => {
     var { username, password, captch } = req.body;
 
-    if (req.session.captch === captch.toLowerCase()) {
+    if ( store.captch === captch.toLowerCase()) {
         let data = await userModel.userFind({ username })
         if (data) {
             res.json({
@@ -92,8 +92,7 @@ const register = async (req, res, next) => {
 const login = async (req, res) => {
     var { username, password, captch } = req.body;
 
-
-    if (req.session.captch === captch.toLowerCase()) {
+    if ( store.captch === captch.toLowerCase()) {
 
         let data = await userModel.userFind({ username });
         if (data.userStatus) {
@@ -103,6 +102,10 @@ const login = async (req, res) => {
             hash.update(password)
 
             if (data.password === hash.digest('hex')) {
+
+                req.session["userId"] = username;
+
+
                 res.json({
                     code: 200,
                     errmsg: "",
